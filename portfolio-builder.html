@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Yaratuvchi | Universitetga Topshirish</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A0F1E;
+    --navy-2: #111827;
+    --navy-3: #1F2937;
+    --blue: #3B82F6;
+    --blue-light: #60A5FA;
+    --blue-glow: rgba(59,130,246,0.25);
+    --gold: #F59E0B;
+    --gold-light: #FCD34D;
+    --white: #F9FAFB;
+    --gray: #9CA3AF;
+    --gray-2: #6B7280;
+    --red: #EF4444;
+    --green: #10B981;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND ANIMATION */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(245,158,11,0.06) 0%, transparent 50%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes bgPulse {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.05) rotate(2deg); }
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 50px 20px 30px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(245,158,11,0.15));
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 50px;
+    padding: 8px 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue-light);
+  }
+
+  .logo-badge::before {
+    content: '✦';
+    color: var(--gold);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, var(--blue-light) 70%, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+
+  header p {
+    color: var(--gray);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* STEP PROGRESS */
+  .progress-wrapper {
+    padding: 30px 0 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(10,15,30,0.9);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .steps-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    flex: 1;
+  }
+
+  .step-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background: var(--border);
+    transition: background 0.4s;
+  }
+
+  .step-item.done:not(:last-child)::after {
+    background: var(--blue);
+  }
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-2);
+    background: var(--navy-2);
+    transition: all 0.3s;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-item.active .step-circle {
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: 0 0 20px var(--blue-glow);
+    background: rgba(59,130,246,0.1);
+  }
+
+  .step-item.done .step-circle {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .step-label {
+    font-size: 11px;
+    color: var(--gray-2);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .step-item.active .step-label { color: var(--blue-light); }
+  .step-item.done .step-label { color: var(--gray); }
+
+  /* FORM CARD */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+  }
+
+  .form-card:hover {
+    border-color: rgba(59,130,246,0.2);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(245,158,11,0.15));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .section-sub {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 28px;
+    padding-left: 46px;
+  }
+
+  /* FORM INPUTS */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  label .req { color: var(--gold); margin-left: 3px; }
+
+  input, select, textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.25s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    background: rgba(59,130,246,0.07);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+  }
+
+  input::placeholder, textarea::placeholder { color: rgba(156,163,175,0.5); }
+
+  select option { background: var(--navy-2); color: var(--white); }
+
+  textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+  /* RADIO & CHECKBOX */
+  .radio-group, .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .radio-btn, .check-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .radio-btn input[type="radio"],
+  .check-btn input[type="checkbox"] { display: none; }
+
+  .radio-label, .check-label {
+    padding: 10px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .radio-btn input:checked + .radio-label,
+  .check-btn input:checked + .check-label {
+    border-color: var(--blue);
+    background: rgba(59,130,246,0.15);
+    color: var(--blue-light);
+  }
+
+  /* ACHIEVEMENT CARDS */
+  .achievements-list { display: flex; flex-direction: column; gap: 16px; }
+
+  .achievement-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .achievement-item:hover { border-color: rgba(245,158,11,0.25); }
+
+  .achievement-item .remove-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.25);
+    color: var(--red);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .achievement-item .remove-btn:hover { background: rgba(239,68,68,0.3); }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 2px dashed rgba(59,130,246,0.3);
+    border-radius: 14px;
+    color: var(--blue-light);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .add-btn:hover {
+    border-color: var(--blue);
+    background: rgba(59,130,246,0.07);
+  }
+
+  /* FILE UPLOAD */
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+
+  .upload-area:hover, .upload-area.dragover {
+    border-color: var(--blue);
+    background: rgba(59,130,246,0.05);
+  }
+
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-text { font-size: 14px; color: var(--gray); }
+  .upload-text strong { color: var(--blue-light); }
+
+  .uploaded-files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .file-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(59,130,246,0.12);
+    border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--blue-light);
+  }
+
+  .file-chip .del {
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    font-size: 16px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .file-chip .del:hover { color: var(--red); }
+
+  /* IMAGE PREVIEW */
+  .img-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .img-thumb {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    position: relative;
+  }
+
+  .img-thumb-wrap { position: relative; }
+
+  .img-thumb-wrap button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* NAV BUTTONS */
+  .form-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    gap: 12px;
+  }
+
+  .btn-back, .btn-next, .btn-generate {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-back {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--gray);
+  }
+
+  .btn-back:hover {
+    border-color: var(--gray);
+    color: var(--white);
+  }
+
+  .btn-next {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+    margin-left: auto;
+  }
+
+  .btn-next:hover {
+    background: var(--blue-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 30px rgba(59,130,246,0.45);
+  }
+
+  .btn-generate {
+    background: linear-gradient(135deg, var(--gold), #D97706);
+    color: #000;
+    box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 35px rgba(245,158,11,0.5);
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0;
+    color: var(--gray-2);
+    font-size: 13px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ============ PORTFOLIO PREVIEW ============ */
+  #portfolio-preview { display: none; }
+
+  .pf-header {
+    background: linear-gradient(135deg, var(--navy-2), #0D1B2A);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 50px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .pf-header::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+  }
+
+  .pf-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);
+  }
+
+  .pf-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--blue);
+    box-shadow: 0 0 30px rgba(59,130,246,0.4);
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-avatar-placeholder {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(245,158,11,0.2));
+    border: 3px solid var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-tagline {
+    color: var(--blue-light);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-badge {
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+
+  .pf-badge.blue {
+    background: rgba(59,130,246,0.15);
+    border-color: rgba(59,130,246,0.35);
+    color: var(--blue-light);
+  }
+
+  .pf-badge.gold {
+    background: rgba(245,158,11,0.15);
+    border-color: rgba(245,158,11,0.35);
+    color: var(--gold-light);
+  }
+
+  .pf-badge.green {
+    background: rgba(16,185,129,0.15);
+    border-color: rgba(16,185,129,0.35);
+    color: #6EE7B7;
+  }
+
+  /* SECTIONS */
+  .pf-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+
+  .pf-section:hover { border-color: rgba(59,130,246,0.2); }
+
+  .pf-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pf-section-title::before {
+    content: '';
+    width: 4px;
+    height: 22px;
+    background: linear-gradient(to bottom, var(--blue), var(--gold));
+    border-radius: 2px;
+  }
+
+  .pf-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .pf-info-item {
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .pf-info-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-2);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .pf-info-value {
+    font-size: 15px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .pf-bio { line-height: 1.8; color: var(--gray); font-size: 15px; }
+
+  /* ACHIEVEMENTS PORTFOLIO */
+  .pf-achievement {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    transition: all 0.2s;
+  }
+
+  .pf-achievement:hover {
+    border-color: rgba(245,158,11,0.3);
+    transform: translateX(4px);
+  }
+
+  .pf-ach-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .pf-ach-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--white);
+  }
+
+  .pf-ach-year {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 50px;
+    padding: 3px 12px;
+    white-space: nowrap;
+  }
+
+  .pf-ach-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .pf-ach-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--blue-light);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .pf-ach-link:hover { color: #fff; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .skill-tag {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    background: rgba(59,130,246,0.1);
+    border-color: rgba(59,130,246,0.3);
+    color: var(--blue-light);
+  }
+
+  /* IMAGES GRID */
+  .pf-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+
+  .pf-img {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .pf-img:hover {
+    border-color: var(--blue);
+    transform: scale(1.03);
+  }
+
+  /* PRINT BTN */
+  .pf-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .btn-print, .btn-edit {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .btn-print {
+    background: linear-gradient(135deg, var(--gold), #D97706);
+    color: #000;
+    border: none;
+    box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+  }
+
+  .btn-print:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(245,158,11,0.5); }
+
+  .btn-edit {
+    background: transparent;
+    border: 1.5px solid var(--blue);
+    color: var(--blue-light);
+  }
+
+  .btn-edit:hover { background: rgba(59,130,246,0.1); }
+
+  /* STEP VISIBILITY */
+  .step-content { display: none; }
+  .step-content.active { display: block; animation: slideIn 0.35s ease; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* VALIDATION */
+  input.error, select.error, textarea.error { border-color: var(--red) !important; }
+  .error-msg { color: var(--red); font-size: 12px; margin-top: 4px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: rgba(156,163,175,0.4);
+    font-size: 13px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .form-card { padding: 24px 18px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+    .steps-nav { gap: 0; }
+    .step-label { display: none; }
+    .pf-header { padding: 35px 20px; }
+    .pf-section { padding: 22px 18px; }
+    .pf-info-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media print {
+    .progress-wrapper, .form-nav, .pf-actions, header, #form-wrapper, footer { display: none !important; }
+    body { background: #fff; color: #000; }
+    .pf-header, .pf-section { background: #f8f9fa; border-color: #ddd; }
+    .pf-name, .pf-section-title { color: #000; }
+    .pf-info-value { color: #222; }
+    .pf-bio, .pf-ach-desc { color: #444; }
+    #portfolio-preview { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-badge">Portfolio Builder</div>
+  <h1>Portfolio Yaratuvchi</h1>
+  <p>Universitetga topshirish uchun professional portfolio — barcha yutuqlaringizni bir yerda ko'rsating</p>
+</header>
+
+<!-- STEP PROGRESS -->
+<div class="progress-wrapper">
+  <div class="container">
+    <div class="steps-nav" id="steps-nav">
+      <div class="step-item active" data-step="1">
+        <div class="step-circle">1</div>
+        <span class="step-label">Shaxsiy</span>
+      </div>
+      <div class="step-item" data-step="2">
+        <div class="step-circle">2</div>
+        <span class="step-label">Ta'lim</span>
+      </div>
+      <div class="step-item" data-step="3">
+        <div class="step-circle">3</div>
+        <span class="step-label">Yutuqlar</span>
+      </div>
+      <div class="step-item" data-step="4">
+        <div class="step-circle">4</div>
+        <span class="step-label">Ko'nikmalar</span>
+      </div>
+      <div class="step-item" data-step="5">
+        <div class="step-circle">5</div>
+        <span class="step-label">Rasmlar</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===================== FORM WRAPPER ===================== -->
+  <div id="form-wrapper">
+
+    <!-- STEP 1: SHAXSIY MA'LUMOTLAR -->
+    <div class="step-content active" id="step-1">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">👤</span> Shaxsiy Ma'lumotlar</div>
+        <div class="section-sub">Asosiy ma'lumotlaringizni kiriting</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ism <span class="req">*</span></label>
+            <input type="text" id="fname" placeholder="Ismingiz" />
+          </div>
+          <div class="form-group">
+            <label>Familiya <span class="req">*</span></label>
+            <input type="text" id="lname" placeholder="Familiyangiz" />
+          </div>
+        </div>
+
+        <div class="form-row triple">
+          <div class="form-group">
+            <label>Yosh <span class="req">*</span></label>
+            <input type="number" id="age" placeholder="18" min="14" max="50" />
+          </div>
+          <div class="form-group">
+            <label>Jins <span class="req">*</span></label>
+            <select id="gender">
+              <option value="">Tanlang</option>
+              <option value="Erkak">Erkak</option>
+              <option value="Ayol">Ayol</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Millat</label>
+            <input type="text" id="nationality" placeholder="O'zbek" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefon raqam <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="+998 90 000 00 00" />
+          </div>
+          <div class="form-group">
+            <label>Elektron pochta <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="email@example.com" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Manzil (Shahar, Tuman) <span class="req">*</span></label>
+            <input type="text" id="address" placeholder="Toshkent shahri, Yunusobod tumani" />
+          </div>
+        </div>
+
+        <div class="divider">Profil rasmi</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Profil rasmi yuklang</label>
+            <div class="upload-area" id="avatar-area">
+              <input type="file" id="avatar-input" accept="image/*" onchange="handleAvatar(this)" />
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-text">Rasmni bu yerga tashlang yoki <strong>tanlang</strong></div>
+              <div class="upload-text" style="font-size:12px; margin-top:4px;">JPG, PNG, WebP — max 5MB</div>
+            </div>
+            <div id="avatar-preview"></div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>O'zingiz haqingizda qisqacha</label>
+            <textarea id="bio" placeholder="Men kimman? Qanday orzularim bor? Nima bilan qiziqaman?..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <div></div>
+          <button class="btn-next" onclick="goToStep(2)">Keyingi → Ta'lim</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: TA'LIM -->
+    <div class="step-content" id="step-2">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">🎓</span> Ta'lim Ma'lumotlari</div>
+        <div class="section-sub">O'qigan joylaringiz va ilmiy natijalaringiz</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Maktab yoki litsey nomi <span class="req">*</span></label>
+            <input type="text" id="school" placeholder="Mas: Toshkent 45-maktab yoki IT Park Litseyi" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>O'qish davri <span class="req">*</span></label>
+            <input type="text" id="school-years" placeholder="2011 – 2024" />
+          </div>
+          <div class="form-group">
+            <label>GPA / O'rtacha ball</label>
+            <input type="text" id="gpa" placeholder="4.8 / 5.0  yoki  A+" />
+          </div>
+        </div>
+
+        <div class="divider">Qo'shimcha ta'lim</div>
+
+        <div id="extra-edu-list"></div>
+        <button class="add-btn" onclick="addExtraEdu()">＋ Kurs, trening yoki qo'shimcha maktab qo'shish</button>
+
+        <div class="form-row single" style="margin-top:20px;">
+          <div class="form-group">
+            <label>Topshirmoqchi bo'lgan yo'nalish <span class="req">*</span></label>
+            <input type="text" id="target-major" placeholder="Mas: Marketing va raqamli biznes" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Nima uchun shu yo'nalishni tanladingiz?</label>
+            <textarea id="why-major" placeholder="Bu yo'nalishni tanlashimga nima sabab bo'ldi..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(1)">← Orqaga</button>
+          <button class="btn-next" onclick="goToStep(3)">Keyingi → Yutuqlar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: YUTUQLAR -->
+    <div class="step-content" id="step-3">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">🏆</span> Yutuqlar va Tajribalar</div>
+        <div class="section-sub">Olimpiada, sport, loyiha, ish tajribasi — barchasini qo'shing (isbot rasm/link bilan)</div>
+
+        <div id="achievements-list">
+          <!-- JS tomonidan qo'shiladi -->
+        </div>
+
+        <button class="add-btn" onclick="addAchievement()">＋ Yangi yutuq qo'shish</button>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(2)">← Orqaga</button>
+          <button class="btn-next" onclick="goToStep(4)">Keyingi → Ko'nikmalar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: KO'NIKMALAR -->
+    <div class="step-content" id="step-4">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">⚡</span> Ko'nikmalar va Qobiliyatlar</div>
+        <div class="section-sub">Tillar, dasturlar, sport va boshqa qobiliyatlaringiz</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Tillar (bilish darajasi bilan) <span class="req">*</span></label>
+            <input type="text" id="languages" placeholder="O'zbek (ona tili), Rus (B2), Ingliz (B1)" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Kompyuter ko'nikmalar</label>
+            <input type="text" id="computer-skills" placeholder="Microsoft Office, Canva, Figma, Python..." />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Sport yoki ijodiy faoliyat</label>
+            <input type="text" id="sports" placeholder="Muay Thai (milliy darajadagi musobaqa), Musiqa..." />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Ixtiyoriychilik (volontyorlik)</label>
+            <input type="text" id="volunteer" placeholder="2023-yil Toshkent yoshlar kengashi..." />
+          </div>
+        </div>
+
+        <div class="divider">Qo'shimcha ma'lumot</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>O'zingizning kuchli tomonlaringiz</label>
+            <div class="check-group" id="strengths-group">
+              <label class="check-btn"><input type="checkbox" value="Liderlik"><span class="check-label">🎯 Liderlik</span></label>
+              <label class="check-btn"><input type="checkbox" value="Ijodkorlik"><span class="check-label">💡 Ijodkorlik</span></label>
+              <label class="check-btn"><input type="checkbox" value="Muloqot"><span class="check-label">💬 Muloqot</span></label>
+              <label class="check-btn"><input type="checkbox" value="Tahlil"><span class="check-label">📊 Tahlil</span></label>
+              <label class="check-btn"><input type="checkbox" value="Jamoada ishlash"><span class="check-label">🤝 Jamoada ishlash</span></label>
+              <label class="check-btn"><input type="checkbox" value="Mas'uliyat"><span class="check-label">⭐ Mas'uliyat</span></label>
+              <label class="check-btn"><input type="checkbox" value="Tashkilotchilik"><span class="check-label">📋 Tashkilotchilik</span></label>
+              <label class="check-btn"><input type="checkbox" value="Muammoni hal etish"><span class="check-label">🔧 Muammoni hal etish</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>LinkedIn yoki GitHub profil havolasi</label>
+            <input type="url" id="social-link" placeholder="https://linkedin.com/in/sizning-ismingiz" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Shaxsiy sayt yoki portfolio havolasi</label>
+            <input type="url" id="personal-site" placeholder="https://yoursite.uz" />
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(3)">← Orqaga</button>
+          <button class="btn-next" onclick="goToStep(5)">Keyingi → Rasmlar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: RASMLAR VA HUJJATLAR -->
+    <div class="step-content" id="step-5">
+      <div class="form-card">
+        <div class="section-title"><span class="icon">📎</span> Rasmlar va Hujjatlar</div>
+        <div class="section-sub">Diplomlar, sertifikatlar, mukofotlar va boshqa isbot rasmlari</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Sertifikatlar va diplomlar (rasm)</label>
+            <div class="upload-area" id="docs-area">
+              <input type="file" id="docs-input" accept="image/*" multiple onchange="handleDocs(this)" />
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">Diploma, sertifikat, yorliq rasmlarini yuklang</div>
+              <div class="upload-text" style="font-size:12px; margin-top:4px;">Bir vaqtda bir nechta rasm tanlash mumkin</div>
+            </div>
+            <div class="img-preview-grid" id="docs-preview"></div>
+          </div>
+        </div>
+
+        <div class="divider">Loyiha va ish isботлари</div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Loyiha, musobaqa yoki tadbirdan rasmlar</label>
+            <div class="upload-area" id="projects-area">
+              <input type="file" id="projects-input" accept="image/*" multiple onchange="handleProjects(this)" />
+              <div class="upload-icon">🏆</div>
+              <div class="upload-text">Musobaqa, tadbirlar, loyiha rasmlarini yuklang</div>
+            </div>
+            <div class="img-preview-grid" id="projects-preview"></div>
+          </div>
+        </div>
+
+        <div class="divider">Video havolalar</div>
+
+        <div id="video-links-list">
+          <div class="form-row single" style="margin-bottom:10px;">
+            <div class="form-group">
+              <label>Video havola (YouTube, Instagram va h.k.)</label>
+              <input type="url" class="video-link-input" placeholder="https://youtube.com/watch?v=..." />
+            </div>
+          </div>
+        </div>
+        <button class="add-btn" onclick="addVideoLink()">＋ Yana video havola qo'shish</button>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(4)">← Orqaga</button>
+          <button class="btn-generate" onclick="generatePortfolio()">✨ Portfolio Yaratish</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-wrapper -->
+
+  <!-- ===================== PORTFOLIO PREVIEW ===================== -->
+  <div id="portfolio-preview">
+
+    <div class="pf-actions">
+      <button class="btn-edit" onclick="editPortfolio()">✏️ Tahrirlash</button>
+      <button class="btn-print" onclick="printPortfolio()">🖨️ Chop etish / PDF saqlash</button>
+    </div>
+
+    <!-- HEADER -->
+    <div class="pf-header" id="pf-header-section">
+      <div id="pf-avatar-wrap"></div>
+      <div class="pf-name" id="pf-full-name"></div>
+      <div class="pf-tagline" id="pf-tagline"></div>
+      <div class="pf-badges" id="pf-badges"></div>
+    </div>
+
+    <!-- BIO -->
+    <div class="pf-section" id="pf-bio-section" style="display:none">
+      <div class="pf-section-title">Mening haqimda</div>
+      <div class="pf-bio" id="pf-bio"></div>
+    </div>
+
+    <!-- SHAXSIY MA'LUMOTLAR -->
+    <div class="pf-section">
+      <div class="pf-section-title">Shaxsiy Ma'lumotlar</div>
+      <div class="pf-info-grid" id="pf-personal-info"></div>
+    </div>
+
+    <!-- TA'LIM -->
+    <div class="pf-section">
+      <div class="pf-section-title">Ta'lim</div>
+      <div id="pf-education"></div>
+    </div>
+
+    <!-- YUTUQLAR -->
+    <div class="pf-section" id="pf-achievements-section" style="display:none">
+      <div class="pf-section-title">Yutuqlar va Tajribalar</div>
+      <div id="pf-achievements"></div>
+    </div>
+
+    <!-- KO'NIKMALAR -->
+    <div class="pf-section" id="pf-skills-section">
+      <div class="pf-section-title">Ko'nikmalar</div>
+      <div id="pf-skills"></div>
+    </div>
+
+    <!-- SERTIFIKATLAR RASMLARI -->
+    <div class="pf-section" id="pf-docs-section" style="display:none">
+      <div class="pf-section-title">Sertifikatlar va Diplomlar</div>
+      <div class="pf-images-grid" id="pf-docs-imgs"></div>
+    </div>
+
+    <!-- LOYIHA RASMLARI -->
+    <div class="pf-section" id="pf-projects-section" style="display:none">
+      <div class="pf-section-title">Faoliyat Rasmlari</div>
+      <div class="pf-images-grid" id="pf-projects-imgs"></div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="pf-section" id="pf-videos-section" style="display:none">
+      <div class="pf-section-title">Video Isботлар</div>
+      <div id="pf-videos"></div>
+    </div>
+
+    <div class="pf-actions" style="margin-top:10px;">
+      <button class="btn-edit" onclick="editPortfolio()">✏️ Tahrirlash</button>
+      <button class="btn-print" onclick="printPortfolio()">🖨️ Chop etish / PDF saqlash</button>
+    </div>
+
+  </div><!-- /portfolio-preview -->
+
+</div><!-- /container -->
+
+<footer>
+  <p>Portfolio Builder — Universitetga topshirish uchun professional taqdimot yaratish platformasi</p>
+</footer>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 5;
+  let avatarDataURL = null;
+  let docsDataURLs = [];
+  let projectsDataURLs = [];
+  let achievementCount = 0;
+  let extraEduCount = 0;
+
+  // ====== STEP NAVIGATION ======
+  function goToStep(step) {
+    if (step > currentStep && !validateStep(currentStep)) return;
+
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    currentStep = step;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    updateStepNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateStepNav() {
+    document.querySelectorAll('.step-item').forEach(el => {
+      const s = parseInt(el.dataset.step);
+      el.classList.remove('active', 'done');
+      if (s === currentStep) el.classList.add('active');
+      else if (s < currentStep) el.classList.add('done');
+    });
+
+    document.querySelectorAll('.step-circle').forEach(el => {
+      const s = parseInt(el.closest('.step-item').dataset.step);
+      if (s < currentStep) el.innerHTML = '✓';
+      else el.innerHTML = s;
+    });
+  }
+
+  // ====== VALIDATION ======
+  function validateStep(step) {
+    let valid = true;
+    const required = {
+      1: ['fname', 'lname', 'age', 'gender', 'phone', 'email', 'address'],
+      2: ['school', 'school-years', 'target-major'],
+      3: [],
+      4: ['languages'],
+      5: []
+    };
+
+    (required[step] || []).forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('error');
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      const firstErr = document.querySelector('.error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return valid;
+  }
+
+  // ====== AVATAR ======
+  function handleAvatar(input) {
+    if (!input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      avatarDataURL = e.target.result;
+      document.getElementById('avatar-preview').innerHTML =
+        `<div class="img-preview-grid" style="margin-top:10px;">
+          <div class="img-thumb-wrap">
+            <img class="img-thumb" src="${avatarDataURL}" />
+            <button onclick="removeAvatar()">✕</button>
+          </div>
+         </div>`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  function removeAvatar() {
+    avatarDataURL = null;
+    document.getElementById('avatar-preview').innerHTML = '';
+    document.getElementById('avatar-input').value = '';
+  }
+
+  // ====== DOCS ======
+  function handleDocs(input) {
+    Array.from(input.files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        docsDataURLs.push(e.target.result);
+        renderDocsPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderDocsPreview() {
+    const el = document.getElementById('docs-preview');
+    el.innerHTML = docsDataURLs.map((src, i) =>
+      `<div class="img-thumb-wrap">
+        <img class="img-thumb" src="${src}" />
+        <button onclick="removeDoc(${i})">✕</button>
+       </div>`
+    ).join('');
+  }
+
+  function removeDoc(i) {
+    docsDataURLs.splice(i, 1);
+    renderDocsPreview();
+  }
+
+  // ====== PROJECTS ======
+  function handleProjects(input) {
+    Array.from(input.files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        projectsDataURLs.push(e.target.result);
+        renderProjectsPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderProjectsPreview() {
+    const el = document.getElementById('projects-preview');
+    el.innerHTML = projectsDataURLs.map((src, i) =>
+      `<div class="img-thumb-wrap">
+        <img class="img-thumb" src="${src}" />
+        <button onclick="removeProject(${i})">✕</button>
+       </div>`
+    ).join('');
+  }
+
+  function removeProject(i) {
+    projectsDataURLs.splice(i, 1);
+    renderProjectsPreview();
+  }
+
+  // ====== ACHIEVEMENT ======
+  function addAchievement() {
+    achievementCount++;
+    const id = achievementCount;
+    const div = document.createElement('div');
+    div.className = 'achievement-item';
+    div.id = `ach-${id}`;
+    div.innerHTML = `
+      <button class="remove-btn" onclick="this.closest('.achievement-item').remove()">✕ O'chirish</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Yutuq nomi <span class="req">*</span></label>
+          <input type="text" class="ach-title" placeholder="Mas: Respublika olimpiadasi — 1-o'rin" />
+        </div>
+        <div class="form-group">
+          <label>Yili</label>
+          <input type="text" class="ach-year" placeholder="2024" style="max-width:100px;" />
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Tur / Kategoriya</label>
+          <select class="ach-type">
+            <option value="">Tanlang</option>
+            <option>Olimpiada / Musobaqa</option>
+            <option>Sport yutuqi</option>
+            <option>Sertifikat / Kurs</option>
+            <option>Loyiha / Startup</option>
+            <option>Ish tajribasi</option>
+            <option>Ixtiyoriy faoliyat</option>
+            <option>Ijodiy yutuq</option>
+            <option>Boshqa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Havola (isbotlovchi link)</label>
+          <input type="url" class="ach-link" placeholder="https://..." />
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Qisqacha tavsif</label>
+          <textarea class="ach-desc" rows="2" placeholder="Bu yutuq haqida qisqacha..."></textarea>
+        </div>
+      </div>
+    `;
+    document.getElementById('achievements-list').appendChild(div);
+  }
+
+  // ====== EXTRA EDU ======
+  function addExtraEdu() {
+    extraEduCount++;
+    const id = extraEduCount;
+    const div = document.createElement('div');
+    div.className = 'achievement-item';
+    div.id = `edu-${id}`;
+    div.innerHTML = `
+      <button class="remove-btn" onclick="this.closest('.achievement-item').remove()">✕ O'chirish</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ta'lim muassasasi nomi</label>
+          <input type="text" class="edu-name" placeholder="Mas: IT Academy, IELTS Center..." />
+        </div>
+        <div class="form-group">
+          <label>Davri</label>
+          <input type="text" class="edu-period" placeholder="2022 – 2023" />
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Sertifikat / Natija</label>
+          <input type="text" class="edu-cert" placeholder="Mas: IELTS 6.5, Python sertifikati..." />
+        </div>
+      </div>
+    `;
+    document.getElementById('extra-edu-list').appendChild(div);
+  }
+
+  // ====== VIDEO LINK ======
+  function addVideoLink() {
+    const div = document.createElement('div');
+    div.className = 'form-row single';
+    div.style.marginBottom = '10px';
+    div.innerHTML = `
+      <div class="form-group" style="position:relative;">
+        <label>Video havola</label>
+        <input type="url" class="video-link-input" placeholder="https://youtube.com/watch?v=..." />
+        <button onclick="this.closest('.form-row').remove()" style="position:absolute;right:12px;bottom:13px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.25);color:#EF4444;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;">✕</button>
+      </div>
+    `;
+    document.getElementById('video-links-list').appendChild(div);
+  }
+
+  // ====== GENERATE PORTFOLIO ======
+  function generatePortfolio() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const nationality = document.getElementById('nationality').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    const bio = document.getElementById('bio').value;
+    const school = document.getElementById('school').value;
+    const schoolYears = document.getElementById('school-years').value;
+    const gpa = document.getElementById('gpa').value;
+    const targetMajor = document.getElementById('target-major').value;
+    const whyMajor = document.getElementById('why-major').value;
+    const languages = document.getElementById('languages').value;
+    const computerSkills = document.getElementById('computer-skills').value;
+    const sports = document.getElementById('sports').value;
+    const volunteer = document.getElementById('volunteer').value;
+    const socialLink = document.getElementById('social-link').value;
+    const personalSite = document.getElementById('personal-site').value;
+
+    // Name
+    const fullName = `${fname} ${lname}`;
+    document.getElementById('pf-full-name').textContent = fullName;
+    document.getElementById('pf-tagline').textContent = targetMajor || 'Talabaga da\'vogar';
+
+    // Avatar
+    const avatarWrap = document.getElementById('pf-avatar-wrap');
+    if (avatarDataURL) {
+      avatarWrap.innerHTML = `<img class="pf-avatar" src="${avatarDataURL}" alt="${fullName}" />`;
+    } else {
+      avatarWrap.innerHTML = `<div class="pf-avatar-placeholder">${fname[0] || '?'}${lname[0] || ''}</div>`;
+    }
+
+    // Badges
+    const badges = [];
+    if (age) badges.push({ text: `${age} yosh`, cls: 'blue' });
+    if (gender) badges.push({ text: gender, cls: 'blue' });
+    if (address) badges.push({ text: address.split(',')[0], cls: 'gold' });
+    const achs = document.querySelectorAll('.achievement-item');
+    if (achs.length > 0) badges.push({ text: `${achs.length} ta yutuq`, cls: 'green' });
+    document.getElementById('pf-badges').innerHTML = badges
+      .map(b => `<span class="pf-badge ${b.cls}">${b.text}</span>`).join('');
+
+    // Bio
+    if (bio) {
+      document.getElementById('pf-bio').textContent = bio;
+      document.getElementById('pf-bio-section').style.display = '';
+    }
+
+    // Personal info
+    const personalItems = [
+      { label: 'To\'liq ism', value: fullName },
+      { label: 'Yosh', value: age ? `${age} yosh` : null },
+      { label: 'Jins', value: gender },
+      { label: 'Millat', value: nationality },
+      { label: 'Manzil', value: address },
+      { label: 'Telefon', value: phone },
+      { label: 'Email', value: email },
+    ].filter(i => i.value);
+    document.getElementById('pf-personal-info').innerHTML = personalItems
+      .map(i => `<div class="pf-info-item"><div class="pf-info-label">${i.label}</div><div class="pf-info-value">${i.value}</div></div>`)
+      .join('');
+
+    // Education
+    let eduHTML = `
+      <div class="pf-achievement">
+        <div class="pf-ach-header">
+          <div class="pf-ach-title">${school || 'Maktab ko\'rsatilmagan'}</div>
+          ${schoolYears ? `<div class="pf-ach-year">${schoolYears}</div>` : ''}
+        </div>
+        ${gpa ? `<div class="pf-ach-desc">O'rtacha ball: <strong style="color:var(--gold-light)">${gpa}</strong></div>` : ''}
+      </div>
+    `;
+
+    // Extra edu
+    document.querySelectorAll('.achievement-item[id^="edu-"]').forEach(el => {
+      const name = el.querySelector('.edu-name')?.value;
+      const period = el.querySelector('.edu-period')?.value;
+      const cert = el.querySelector('.edu-cert')?.value;
+      if (name) {
+        eduHTML += `
+          <div class="pf-achievement">
+            <div class="pf-ach-header">
+              <div class="pf-ach-title">${name}</div>
+              ${period ? `<div class="pf-ach-year">${period}</div>` : ''}
+            </div>
+            ${cert ? `<div class="pf-ach-desc">${cert}</div>` : ''}
+          </div>
+        `;
+      }
+    });
+
+    if (targetMajor) {
+      eduHTML += `
+        <div style="margin-top:16px; padding:16px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:12px;">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--blue-light);margin-bottom:6px;font-weight:700;">Maqsad yo'nalish</div>
+          <div style="font-size:16px;font-weight:700;color:#fff;">${targetMajor}</div>
+          ${whyMajor ? `<div style="color:var(--gray);font-size:14px;margin-top:6px;line-height:1.6;">${whyMajor}</div>` : ''}
+        </div>
+      `;
+    }
+    document.getElementById('pf-education').innerHTML = eduHTML;
+
+    // Achievements
+    const achItems = document.querySelectorAll('.achievement-item[id^="ach-"]');
+    if (achItems.length > 0) {
+      let achHTML = '';
+      achItems.forEach(el => {
+        const title = el.querySelector('.ach-title')?.value;
+        const year = el.querySelector('.ach-year')?.value;
+        const type = el.querySelector('.ach-type')?.value;
+        const link = el.querySelector('.ach-link')?.value;
+        const desc = el.querySelector('.ach-desc')?.value;
+        if (title) {
+          achHTML += `
+            <div class="pf-achievement">
+              <div class="pf-ach-header">
+                <div>
+                  ${type ? `<div style="font-size:11px;color:var(--blue-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">${type}</div>` : ''}
+                  <div class="pf-ach-title">${title}</div>
+                </div>
+                ${year ? `<div class="pf-ach-year">${year}</div>` : ''}
+              </div>
+              ${desc ? `<div class="pf-ach-desc">${desc}</div>` : ''}
+              ${link ? `<a href="${link}" target="_blank" class="pf-ach-link">🔗 Isbot havolasi →</a>` : ''}
+            </div>
+          `;
+        }
+      });
+      document.getElementById('pf-achievements').innerHTML = achHTML;
+      document.getElementById('pf-achievements-section').style.display = '';
+    }
+
+    // Skills
+    let skillsHTML = '<div class="skills-grid">';
+    const allSkills = [
+      ...(languages ? languages.split(',') : []),
+      ...(computerSkills ? computerSkills.split(',') : []),
+      ...(sports ? sports.split(',') : []),
+    ].map(s => s.trim()).filter(Boolean);
+
+    const strengths = Array.from(document.querySelectorAll('#strengths-group input:checked')).map(i => i.value);
+
+    allSkills.forEach(s => { skillsHTML += `<span class="skill-tag">${s}</span>`; });
+    strengths.forEach(s => { skillsHTML += `<span class="skill-tag" style="border-color:rgba(245,158,11,0.3);color:var(--gold-light);">${s}</span>`; });
+
+    if (volunteer) skillsHTML += `<span class="skill-tag" style="border-color:rgba(16,185,129,0.3);color:#6EE7B7;">🤝 ${volunteer.split(',')[0]}</span>`;
+    if (socialLink) skillsHTML += `<a href="${socialLink}" target="_blank" class="skill-tag" style="text-decoration:none;border-color:rgba(59,130,246,0.4);color:var(--blue-light);">🔗 LinkedIn / GitHub</a>`;
+    if (personalSite) skillsHTML += `<a href="${personalSite}" target="_blank" class="skill-tag" style="text-decoration:none;border-color:rgba(59,130,246,0.4);color:var(--blue-light);">🌐 Shaxsiy sayt</a>`;
+    skillsHTML += '</div>';
+    document.getElementById('pf-skills').innerHTML = skillsHTML;
+
+    // Docs images
+    if (docsDataURLs.length > 0) {
+      document.getElementById('pf-docs-imgs').innerHTML = docsDataURLs
+        .map(src => `<img class="pf-img" src="${src}" onclick="window.open('${src}')" />`).join('');
+      document.getElementById('pf-docs-section').style.display = '';
+    }
+
+    // Project images
+    if (projectsDataURLs.length > 0) {
+      document.getElementById('pf-projects-imgs').innerHTML = projectsDataURLs
+        .map(src => `<img class="pf-img" src="${src}" onclick="window.open('${src}')" />`).join('');
+      document.getElementById('pf-projects-section').style.display = '';
+    }
+
+    // Videos
+    const videoLinks = Array.from(document.querySelectorAll('.video-link-input'))
+      .map(i => i.value.trim()).filter(Boolean);
+    if (videoLinks.length > 0) {
+      document.getElementById('pf-videos').innerHTML = videoLinks.map((url, i) =>
+        `<a href="${url}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;color:var(--blue-light);text-decoration:none;margin-bottom:10px;font-size:14px;font-weight:600;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:20px;">▶️</span>
+          <span>Video ${i + 1}: ${url.length > 60 ? url.slice(0, 60) + '...' : url}</span>
+          <span style="margin-left:auto;opacity:0.5;">→</span>
+        </a>`
+      ).join('');
+      document.getElementById('pf-videos-section').style.display = '';
+    }
+
+    // Show portfolio
+    document.getElementById('form-wrapper').style.display = 'none';
+    document.getElementById('portfolio-preview').style.display = 'block';
+    document.querySelector('.progress-wrapper').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function editPortfolio() {
+    document.getElementById('form-wrapper').style.display = 'block';
+    document.getElementById('portfolio-preview').style.display = 'none';
+    document.querySelector('.progress-wrapper').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Init: add one achievement
+  addAchievement();
+</script>
+
+</body>
+</html>
+<script>
+  // ====== PRINT (yangi oyna orqali) ======
+  function printPortfolio() {
+    const pf = document.getElementById('portfolio-preview');
+    const content = pf.innerHTML;
+    const win = window.open('', '_blank');
+    win.document.write(`<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0A0F1E;--blue:#3B82F6;--blue-light:#60A5FA;--gold:#F59E0B;--gold-light:#FCD34D;--white:#F9FAFB;--gray:#9CA3AF;--gray-2:#6B7280;--border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.04);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0F1E;color:#F9FAFB;font-family:'Inter',sans-serif;padding:28px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .pf-actions{display:none!important;}
+  .pf-header{background:linear-gradient(135deg,#111827,#0D1B2A);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:40px;text-align:center;margin-bottom:18px;overflow:hidden;}
+  .pf-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #3B82F6;margin-bottom:14px;}
+  .pf-avatar-placeholder{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(245,158,11,0.2));border:3px solid #3B82F6;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;}
+  .pf-name{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#F9FAFB;margin-bottom:6px;}
+  .pf-tagline{color:#60A5FA;font-size:14px;font-weight:500;margin-bottom:14px;}
+  .pf-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+  .pf-badge{padding:5px 13px;border-radius:50px;font-size:12px;font-weight:600;border:1px solid;}
+  .pf-badge.blue{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#60A5FA;}
+  .pf-badge.gold{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4);color:#FCD34D;}
+  .pf-badge.green{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:#6EE7B7;}
+  .pf-section{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;margin-bottom:14px;}
+  .pf-section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#F9FAFB;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .pf-section-title::before{content:'';width:4px;height:18px;background:linear-gradient(to bottom,#3B82F6,#F59E0B);border-radius:2px;flex-shrink:0;}
+  .pf-info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+  .pf-info-item{background:rgba(255,255,255,0.03);border-radius:8px;padding:10px 12px;}
+  .pf-info-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#6B7280;margin-bottom:3px;font-weight:600;}
+  .pf-info-value{font-size:13px;color:#F9FAFB;font-weight:500;}
+  .pf-bio{line-height:1.8;color:#9CA3AF;font-size:14px;}
+  .pf-achievement{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;margin-bottom:8px;}
+  .pf-ach-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px;}
+  .pf-ach-title{font-weight:700;font-size:14px;color:#F9FAFB;}
+  .pf-ach-year{font-size:11px;font-weight:700;color:#F59E0B;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:50px;padding:2px 10px;white-space:nowrap;}
+  .pf-ach-desc{font-size:13px;color:#9CA3AF;line-height:1.5;margin-bottom:6px;}
+  .pf-ach-link{color:#60A5FA;font-size:12px;font-weight:600;text-decoration:none;}
+  .skills-grid{display:flex;flex-wrap:wrap;gap:7px;}
+  .skill-tag{padding:6px 13px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:50px;font-size:12px;color:#F9FAFB;font-weight:500;text-decoration:none;}
+  .pf-images-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;}
+  .pf-img{aspect-ratio:1;border-radius:8px;object-fit:cover;border:2px solid rgba(255,255,255,0.08);width:100%;}
+  a{color:#60A5FA;}
+</style>
+</head>
+<body>${content}</body>
+</html>`);
+    win.document.close();
+    win.onload = function() { setTimeout(function(){ win.focus(); win.print(); }, 400); };
+  }
+</script>
